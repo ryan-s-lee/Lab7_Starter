@@ -45,16 +45,29 @@ function initializeServiceWorker() {
   // We first must register our ServiceWorker here before any of the code in
   // sw.js is executed.
   // B1. TODO - Check if 'serviceWorker' is supported in the current browser
-  // B2. TODO - Listen for the 'load' event on the window object.
-  // Steps B3-B6 will be *inside* the event listener's function created in B2
-  // B3. TODO - Register './sw.js' as a service worker (The MDN article
-  //            "Using Service Workers" will help you here)
-  // B4. TODO - Once the service worker has been successfully registered, console
-  //            log that it was successful.
+  if ("serviceWorker" in navigator) {
+    // TODO
+    // B2. TODO - Listen for the 'load' event on the window object.
+    window.addEventListener("load", () => {
+      // TODO
+      // Steps B3-B6 will be *inside* the event listener's function created in B2
+      // B3. TODO - Register './sw.js' as a service worker (The MDN article
+      //            "Using Service Workers" will help you here)
+      navigator.serviceWorker.register("/sw.js", {
+        scope: "/",
+      }).then(() => {
+        console.log("service worker registered successfully");
+      }, () => {
+        console.log("service worker registration failed");
+      });
+    });
+    // B4. TODO - Once the service worker has been successfully registered, console
+    //            log that it was successful.
+  }
   // B5. TODO - In the event that the service worker registration fails, console
   //            log that it has failed.
-  // STEPS B6 ONWARDS WILL BE IN /sw.js
 }
+// STEPS B6 ONWARDS WILL BE IN /sw.js
 
 /**
  * Reads 'recipes' from localStorage and returns an array of
@@ -69,7 +82,7 @@ async function getRecipes() {
   // A1. TODO - Check local storage to see if there are any recipes.
   //            If there are recipes, return them.
   const recipes = localStorage.getItem("recipes");
-  if (recipes != null && recipes.length != 0) {
+  if (recipes == null || recipes.length == 0) {
     return null;
   }
   /**************************/
@@ -98,7 +111,7 @@ async function getRecipes() {
       //            article on fetch(). NOTE: Fetches are ASYNCHRONOUS, meaning that
       //            you must either use "await fetch(...)" or "fetch.then(...)". This
       //            function is using the async keyword so we recommend "await"
-      const fetchedRecipe = await fetch(new URL(recipeurl));
+      const fetchedRecipe = await fetch(recipeurl);
       // A7. TODO - For each fetch response, retrieve the JSON from it using .json().
       //            NOTE: .json() is ALSO asynchronous, so you will need to use
       //            "await" again
@@ -117,6 +130,7 @@ async function getRecipes() {
       throw error;
     }
   }
+  saveRecipesToStorage(fetchedRecipes);
   return fetchedRecipes;
 }
 
