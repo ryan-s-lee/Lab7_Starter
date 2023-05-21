@@ -45,10 +45,11 @@ self.addEventListener("fetch", function (event) {
   // B8. TODO - If the request is in the cache, return with the cached version.
   //            Otherwise fetch the resource, add it to the cache, and return
   //            network response.
+  console.log(event.request);
   function readElseFetch(cache) {
     // check the cache
     return cache
-      .match(event.request.url)
+      .match(event.request)
       .then(function resolve(cachedResponse) {
         // if it exists, use cached response
         if (cachedResponse) {
