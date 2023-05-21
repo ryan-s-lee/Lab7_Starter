@@ -55,10 +55,12 @@ function initializeServiceWorker() {
       //            "Using Service Workers" will help you here)
       navigator.serviceWorker.register("/sw.js", {
         scope: "./",
-      }).then(() => {
+      }).then((resolve) => {
         console.log("service worker registered successfully");
-      }, () => {
+        console.log("Resolve object: " + resolve);
+      }, (reject) => {
         console.log("service worker registration failed");
+        console.log("Reject object: " + reject);
       });
     });
     // B4. TODO - Once the service worker has been successfully registered, console
