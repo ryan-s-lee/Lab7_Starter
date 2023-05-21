@@ -54,7 +54,7 @@ function initializeServiceWorker() {
       // B3. TODO - Register './sw.js' as a service worker (The MDN article
       //            "Using Service Workers" will help you here)
       navigator.serviceWorker.register("/sw.js", {
-        scope: "/",
+        scope: "./",
       }).then(() => {
         console.log("service worker registered successfully");
       }, () => {
