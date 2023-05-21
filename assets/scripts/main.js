@@ -83,7 +83,7 @@ async function getRecipes() {
   //            If there are recipes, return them.
   const recipes = localStorage.getItem("recipes");
   if (recipes != null && recipes.length != 0) {
-    return recipes;
+    return JSON.parse(recipes);
   }
   /**************************/
   // The rest of this method will be concerned with requesting the recipes
